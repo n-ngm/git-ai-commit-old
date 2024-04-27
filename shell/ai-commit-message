@@ -1,0 +1,103 @@
+#!/bin/sh -eu
+
+function usage {
+  echo "Usage: ai-commit-message [OPTIONS]"
+  echo ""
+  echo "Generate git commit message from staged diff using GhatGPT."
+  echo "Options:"
+  echo "  -l,--lang LANG          Language for output (default: en)"
+  echo "  -b,--body-lines NUMBER  Add number of bullet points for body (default: 0)"
+  echo "  -n,--non-interactive    Do not prompt for confirmation (default: no)"
+}
+
+# set options
+OPTION_LANG=""
+OPTION_BODY_LINES=""
+OPTION_INTERACTIVE=""
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -l|--lang)
+      OPTION_LANG=$2
+      shift 2
+      ;;
+    -b|--body-lines)
+      OPTION_BODY_LINES=$2
+      shift 2
+      ;;
+    -n|--non-interactive)
+      OPTION_INTERACTIVE='none'
+      shift 1
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      echo "Unknown option: $1"
+      usage
+      exit 1
+      ;;
+  esac
+done
+
+PROMPT_LANG=""
+PROMPT_BODY=""
+if [ ! -z "$OPTION_LANG" ]; then
+  PROMPT_LANG="output must be in ${OPTION_LANG} language."
+fi
+if [ ! -z "$OPTION_BODY_LINES" ]; then
+  PROMPT_BODY="add summarized description, in under ${OPTION_BODY_LINES} bullet points, open empty line before description."
+fi
+
+# get diff
+GIT_DIFF=$(git diff --staged)
+if [ -z "$GIT_DIFF" ]; then
+  echo "No changes to commit. git add some changes and try again."
+  exit 1
+fi
+
+# query gpt
+function query_gpt {
+  # prompt for ai
+  PROMPT=$(cat <<EOL
+generate git commit message from below diff.
+the first sentence must follow format: <type>: <subject>
+  type const: feat, fix, docs, style, refactor, test, chore
+subject can include multiple summaries of changes, but no line breaks.
+${PROMPT_BODY}
+${PROMPT_LANG}
+--
+${GIT_DIFF}
+--
+EOL
+  )
+
+  # generate commit message
+  # remove quotes
+  echo "$PROMPT" | chatgpt-cli -n 2>/dev/null | tr -d "'\""
+}
+
+MESSAGE=$(query_gpt)
+
+if [ ! -z "$OPTION_INTERACTIVE" ]; then
+  echo "$MESSAGE"
+  exit 0
+fi
+
+echo "$MESSAGE" >&2
+while true; do
+  read -p "OK ? [y/n/q]: " ANS
+  case "$ANS" in
+    n)
+      MESSAGE=$(query_gpt)
+      echo "$MESSAGE" >&2
+      ;;
+    q)
+      exit 0
+      ;;
+    *)
+      echo "$MESSAGE"
+      break
+      ;;
+  esac
+done
