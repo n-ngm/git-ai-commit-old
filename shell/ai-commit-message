@@ -1,11 +1,11 @@
 #!/bin/sh -eu
 
-function usage {
+usage() {
   echo "Usage: ai-commit-message [OPTIONS]"
   echo ""
   echo "Generate git commit message from staged diff using GhatGPT."
   echo "Options:"
-  echo "  -l,--lang LANG          Language for output (default: en)"
+  echo "  -l,--lang LANG          Language for output (default: LANG environment variable else en-US)"
   echo "  -b,--body-lines NUMBER  Add number of bullet points for body (default: 0)"
   echo "  -n,--non-interactive    Do not prompt for confirmation (default: no)"
 }
@@ -40,13 +40,12 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-PROMPT_LANG=""
+PROMPT_LANG="output must be in lang: ${OPTION_LANG:-${LANG:-en-US}}"
+echo $PROMPT_LANG
+
 PROMPT_BODY=""
-if [ ! -z "$OPTION_LANG" ]; then
-  PROMPT_LANG="output must be in ${OPTION_LANG} language."
-fi
 if [ ! -z "$OPTION_BODY_LINES" ]; then
-  PROMPT_BODY="add summarized description, in under ${OPTION_BODY_LINES} bullet points, open empty line before description."
+  PROMPT_BODY="add description, in under ${OPTION_BODY_LINES} bullet points, open empty line before description."
 fi
 
 # get diff
@@ -57,15 +56,14 @@ if [ -z "$GIT_DIFF" ]; then
 fi
 
 # query gpt
-function query_gpt {
+query_gpt() {
   # prompt for ai
   PROMPT=$(cat <<EOL
-generate git commit message from below diff.
-the first sentence must follow format: <type>: <subject>
+generate git commit message from below diff. summarized, with appropriate length, in one sentence,
+must follow format: <type>: <subject>
   type const: feat, fix, docs, style, refactor, test, chore
-subject can include multiple summaries of changes, but no line breaks.
-${PROMPT_BODY}
 ${PROMPT_LANG}
+${PROMPT_BODY}
 --
 ${GIT_DIFF}
 --
