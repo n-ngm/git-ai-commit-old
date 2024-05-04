@@ -14,7 +14,7 @@ usage() {
 OPTION_LANG=""
 OPTION_BODY_LINES=""
 OPTION_INTERACTIVE=""
-while [[ $# -gt 0 ]]; do
+while [ $# -gt 0 ]; do
   case "$1" in
     -l|--lang)
       OPTION_LANG=$2
@@ -41,7 +41,6 @@ while [[ $# -gt 0 ]]; do
 done
 
 PROMPT_LANG="output must be in lang: ${OPTION_LANG:-${LANG:-en-US}}"
-echo $PROMPT_LANG
 
 PROMPT_BODY=""
 if [ ! -z "$OPTION_BODY_LINES" ]; then
