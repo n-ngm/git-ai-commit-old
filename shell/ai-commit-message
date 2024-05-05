@@ -10,6 +10,16 @@ usage() {
   echo "  -n,--non-interactive    Do not prompt for confirmation (default: no)"
 }
 
+# require curl, jq
+if ! command -v curl >/dev/null; then
+  echo "curl command is required. please install curl." >&2
+  exit 1
+fi
+if ! command -v jq >/dev/null; then
+  echo "jq command is required. please install jq." >&2
+  exit 1
+fi
+
 # set options
 OPTION_LANG=""
 OPTION_BODY_LINES=""
