@@ -79,7 +79,7 @@ fi
 query_gpt() {
   # prompt for ai
   PROMPT=$(cat <<EOL
-generate git commit message from below diff. summarized, with appropriate length, in one sentence,
+generate git commit message from below diff. focus on changes, summarize changes with appropriate length, in one sentence,
 must follow format: <type>: <subject>
   type const: feat, fix, docs, style, refactor, test, chore
 ${PROMPT_LANG}
