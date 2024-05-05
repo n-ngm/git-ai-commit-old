@@ -5,6 +5,7 @@ usage() {
   echo ""
   echo "Generate git commit message from staged diff using GhatGPT."
   echo "Options:"
+  echo "  -k,--api-key API_KEY    OpenAI API key (default: \$OPENAI_API_KEY environment variable)"
   echo "  -l,--lang LANG          Language for output (default: LANG environment variable else en-US)"
   echo "  -b,--body-lines NUMBER  Add number of bullet points for body (default: 0)"
   echo "  -n,--non-interactive    Do not prompt for confirmation (default: no)"
@@ -27,6 +28,10 @@ OPTION_BODY_LINES=""
 OPTION_INTERACTIVE=""
 while [ $# -gt 0 ]; do
   case "$1" in
+    -k|--api-key)
+      OPENAI_API_KEY=$2
+      shift 2;
+      ;;
     -l|--lang)
       OPTION_LANG=$2
       shift 2
@@ -50,6 +55,11 @@ while [ $# -gt 0 ]; do
       ;;
   esac
 done
+
+if [ -z "$OPENAI_API_KEY" ]; then
+  echo "OpenAI API key is required. Please set OPENAI_API_KEY environment variable or use -k option." >&2
+  exit 1
+fi
 
 PROMPT_LANG="output must be in lang: ${OPTION_LANG:-${LANG:-en-US}}"
 
