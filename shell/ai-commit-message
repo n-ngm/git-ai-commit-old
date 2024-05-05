@@ -114,8 +114,8 @@ fi
 
 echo "$MESSAGE" >&2
 while true; do
-  read -p "OK ? [y/n/q]: " ANS
-  case "$ANS" in
+  read -p "OK ? [y/n/q]: " CONFIRM
+  case "$CONFIRM" in
     n)
       MESSAGE=$(query_gpt)
       echo "$MESSAGE" >&2
