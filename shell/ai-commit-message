@@ -6,7 +6,7 @@ usage() {
   echo "Generate git commit message from staged diff using GhatGPT."
   echo "Options:"
   echo "  -k,--api-key API_KEY    OpenAI API key (default: \$OPENAI_API_KEY environment variable)"
-  echo "  -l,--lang LANG          Language for output (default: LANG environment variable else en-US)"
+  echo "  -l,--lang LANG          Language for output (default: \$LANG environment variable else en-US)"
   echo "  -b,--body-lines NUMBER  Add number of bullet points for body (default: 0)"
   echo "  -n,--non-interactive    Do not prompt for confirmation (default: no)"
   echo "  -h,--help               Show this help message"
