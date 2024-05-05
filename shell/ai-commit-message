@@ -8,6 +8,7 @@ usage() {
   echo "  -l,--lang LANG          Language for output (default: LANG environment variable else en-US)"
   echo "  -b,--body-lines NUMBER  Add number of bullet points for body (default: 0)"
   echo "  -n,--non-interactive    Do not prompt for confirmation (default: no)"
+  echo "  -h,--help               Show this help message"
 }
 
 # require curl, jq
