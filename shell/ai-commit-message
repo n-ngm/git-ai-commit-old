@@ -69,6 +69,10 @@ if [ ! -z "$OPTION_BODY_LINES" ]; then
 fi
 
 # get diff
+if ! git status >/dev/null ; then
+  exit 1
+fi
+
 GIT_DIFF=$(git diff --staged)
 if [ -z "$GIT_DIFF" ]; then
   echo "No changes to commit. git add some changes and try again."
