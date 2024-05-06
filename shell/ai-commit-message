@@ -106,6 +106,16 @@ EOL
          \"max_tokens\": 1000,
          \"messages\": [${QUERY}]}")
 
+  if [ -z "$ANSWER" ]; then
+    echo "Failed to generate commit message. Please try again." >&2
+    exit 1
+  fi
+
+  if [ "$(echo "$ANSWER" | jq -e 'has("error")')" = "true" ]; then
+    echo "$ANSWER" | jq -r '.error.message' >&2
+    exit 1
+  fi
+
   echo "$ANSWER" | jq -r '.choices[0].message.content'
 }
 
