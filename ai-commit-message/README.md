@@ -1,5 +1,5 @@
 # ai-commit-message
-Generate git commit message from staged diff using GhatGPT.
+This script generates git commit message from staged diff using GhatGPT.
 
 ## Installation
 
@@ -33,4 +33,11 @@ example:
 ```
 $ git add README.md
 $ git ai-commit
+feat: Add ai-commit-message tool for generating git commit messages from staged diff.
+OK ? [y/n/q]: n
+feat: Add README.md with installation instructions and options for generating git commit messages.
+OK ? [y/n/q]: y
+[write_readme 59ea82a] feat: Add README.md with installation instructions and options for generating git commit messages.
+ 1 file changed, 36 insertions(+)
+ create mode 100644 ai-commit-message/README.md
 ```
