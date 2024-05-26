@@ -1,4 +1,4 @@
-#!/bin/sh -eu
+#!/bin/bash -eu
 
 usage() {
   echo "Usage: ai-commit-message [OPTIONS]"
@@ -92,7 +92,7 @@ ${PROMPT_BODY}
 ${GIT_DIFF}
 --
 EOL
-  )
+)
 
   QUERY=$(jq -n --arg content "$PROMPT" '{"role": "user", "content": $content}')
 
@@ -102,7 +102,7 @@ EOL
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer ${OPENAI_API_KEY}" \
     -d "{\"model\": \"gpt-3.5-turbo\", 
-         \"temperature\": 0.5,
+         \"temperature\": 1.0,
          \"max_tokens\": 1000,
          \"messages\": [${QUERY}]}")
 
