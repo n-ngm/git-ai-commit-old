@@ -5,13 +5,13 @@ usage() {
   echo ""
   echo "Generate git commit message from staged diff using GhatGPT."
   echo "Options:"
-  echo "  -k,--api-key API_KEY    OpenAI API key (default: \$OPENAI_API_KEY environmental variable)"
-  echo "  -m,--model MODEL        OpenAI model (default: gpt-4o-mini)"
-  echo "  -t,--temperature TEMP   OpenAI Temperature for sampling (default: 0.7)"
-  echo "  -l,--lang LANG          Language for output (default: \$LANG environmental variable else en-US)"
-  echo "  -b,--body-lines NUMBER  Number of lines for body (default: 0 = none)"
-  echo "  -n,--non-interactive    Do not prompt for confirmation (default: no)"
-  echo "  -h,--help               Show this help message"
+  echo "  --api-key API_KEY    OpenAI API key (default: \$OPENAI_API_KEY environmental variable)"
+  echo "  --model MODEL        OpenAI model (default: gpt-4o-mini)"
+  echo "  --temperature TEMP   OpenAI Temperature for sampling (default: 0.7)"
+  echo "  --lang LANG          Language for output (default: \$LANG environmental variable else en-US)"
+  echo "  --body-lines NUMBER  Number of lines for body (default: 0 = none)"
+  echo "  --non-interactive    Do not prompt for confirmation (default: no)"
+  echo "  --help               Show this help message"
 }
 
 # require curl, jq
@@ -30,31 +30,31 @@ OPTION_BODY_LINES=""
 OPTION_INTERACTIVE=""
 while [ $# -gt 0 ]; do
   case "$1" in
-    -k|--api-key)
+    --api-key)
       OPENAI_API_KEY=$2
-      shift 2;
+      shift 2
       ;;
-    -m|--model)
+    --model)
       OPTION_MODEL=$2
       shift 2
       ;;
-    -t|--temperature)
+    --temperature)
       OPTION_TEMPERATURE=$2
       shift 2
       ;;
-    -l|--lang)
+    --lang)
       OPTION_LANG=$2
       shift 2
       ;;
-    -b|--body-lines)
+    --body-lines)
       OPTION_BODY_LINES=$2
       shift 2
       ;;
-    -n|--non-interactive)
+    --non-interactive)
       OPTION_INTERACTIVE='none'
-      shift 1
+      shift 2
       ;;
-    -h|--help)
+    --help)
       usage
       exit 0
       ;;
