@@ -28,6 +28,7 @@ fi
 OPTION_LANG=""
 OPTION_BODY_LINES=""
 OPTION_INTERACTIVE=""
+OPTION_GIT_COMMIT=""
 while [ $# -gt 0 ]; do
   case "$1" in
     --api-key)
@@ -59,9 +60,8 @@ while [ $# -gt 0 ]; do
       exit 0
       ;;
     *)
-      echo "Unknown option: $1"
-      usage
-      exit 1
+      OPTION_GIT_COMMIT="$OPTION_GIT_COMMIT $1"
+      shift
       ;;
   esac
 done
@@ -131,7 +131,7 @@ EOL
 MESSAGE=$(query_gpt)
 
 if [ ! -z "$OPTION_INTERACTIVE" ]; then
-  echo "$MESSAGE"
+  git commit -m "$MESSAGE" $OPTION_GIT_COMMIT
   exit 0
 fi
 
@@ -144,10 +144,10 @@ while true; do
       echo "$MESSAGE" >&2
       ;;
     q)
-      exit 0
+      break
       ;;
     *)
-      echo "$MESSAGE"
+      git commit -m "$MESSAGE" $OPTION_GIT_COMMIT
       break
       ;;
   esac
