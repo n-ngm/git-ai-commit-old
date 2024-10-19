@@ -4,7 +4,7 @@ This script is a git subcommand that generates a commit message using ChatGPT.
 ## Installation
 
 ### Install
-Install using Homebrew (macOS and Linux)
+Install using Homebrew (macOS and Linux).
 
 ```bash
 $ brew untap n-ngm/tap
@@ -12,22 +12,21 @@ $ brew tap n-ngm/tap
 $ brew install n-ngm/tap/git-ai-commit
 ```
 
-Or, download the script and make it executable.
-
-example:
+Or, download the script, and put it into a directory in your PATH. (e.g. /usr/local/bin)
+And make it executable.
 
 ```bash
-$ curl -o /usr/local/bin/git-ai-commit https://raw.githubusercontent.com/n-ngm/tools/main/git-ai-commit
+$ curl -o /usr/local/bin/git-ai-commit https://raw.githubusercontent.com/n-ngm/tools/refs/heads/main/git-ai-commit/git-ai-commit
 $ chmod +x /usr/local/bin/git-ai-commit
 ```
 
 ### OPENAI_API_KEY environment variable
 
-Obtain an API key from OpenAI  
+Obtain an API key from OpenAI.  
 https://platform.openai.com/api-keys
 
-Set the obtained API key as an environment variable named OPENAI_API_KEY  
-It is recommended to add it to your shell profile
+Set the obtained API key as an environment variable named OPENAI_API_KEY.  
+It is recommended to add it to your shell profile.
 
 ```bash
 export OPENAI_API_KEY="sk-....."
