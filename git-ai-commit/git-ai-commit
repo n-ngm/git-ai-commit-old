@@ -131,7 +131,11 @@ EOL
 MESSAGE=$(query_gpt)
 
 if [ ! -z "$OPTION_INTERACTIVE" ]; then
-  git commit -m "$MESSAGE" "${OPTION_GIT_COMMIT[@]}"
+  if [ ${#OPTION_GIT_COMMIT[@]} -eq 0 ]; then
+    git commit -m "$MESSAGE"
+  else
+    git commit -m "$MESSAGE" "${OPTION_GIT_COMMIT[@]}"
+  fi
   exit 0
 fi
 
@@ -147,7 +151,11 @@ while true; do
       break
       ;;
     *)
-      git commit -m "$MESSAGE" "${OPTION_GIT_COMMIT[@]}"
+      if [ ${#OPTION_GIT_COMMIT[@]} -eq 0 ]; then
+        git commit -m "$MESSAGE"
+      else
+        git commit -m "$MESSAGE" "${OPTION_GIT_COMMIT[@]}"
+      fi
       break
       ;;
   esac
