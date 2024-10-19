@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 
 usage() {
-  echo "Usage: ai-commit-message [OPTIONS]"
+  echo "Usage: git-ai-commit [OPTIONS]"
   echo ""
   echo "Generate git commit message from staged diff using GhatGPT."
   echo "Options:"
